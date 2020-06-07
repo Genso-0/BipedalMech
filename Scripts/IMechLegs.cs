@@ -161,15 +161,15 @@ namespace Assets.Mechas
                 endDirection -= startOfRay;
                 if (Physics.Raycast(startOfRay, endDirection, out hit, Mathf.Infinity))
                 {
-                    var angle = Vector3.Angle(hit.normal, leg.hips.transform.forward) - 90;
+                    //var angle = Vector3.Angle(hit.normal, leg.hips.transform.forward) - 90;
                     //Debug.Log(angle);
-                    if (angle > -30 && angle < 30)
-                    {
+                    //if (angle > -30 && angle < 30)
+                    //{
                         leg.targetPositionRayHit = hit;
                         rayEndPoint = hit.point;
                         rayStartPoint = startOfRay;
                         return true;
-                    }
+                   // }
                 }
             }
             rayEndPoint = Vector3.zero;
