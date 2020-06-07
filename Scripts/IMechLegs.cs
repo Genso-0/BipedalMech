@@ -156,10 +156,7 @@ namespace Assets.Mechas
             {
                 RaycastHit hit;
                 var startOfRay = GetRayStartDirectionFromBody(leg, i);
-                var endDirection = startOfRay;
-                endDirection.y = -parent.transform.position.y;
-                endDirection -= startOfRay;
-                if (Physics.Raycast(startOfRay, endDirection, out hit, Mathf.Infinity))
+                if (Physics.Raycast(startOfRay, -Vector3.up, out hit, Mathf.Infinity))
                 {
                     //var angle = Vector3.Angle(hit.normal, leg.hips.transform.forward) - 90;
                     //Debug.Log(angle);
