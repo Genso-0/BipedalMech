@@ -742,40 +742,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mecha
       objectReference: {fileID: 0}
-    - target: {fileID: 6359093257030552302, guid: 8ff96bad125bc3e4782de64e0ebd2731,
-        type: 3}
-      propertyPath: t
-      value: 
-      objectReference: {fileID: 1614508917}
-    - target: {fileID: 6359093257030552303, guid: 8ff96bad125bc3e4782de64e0ebd2731,
-        type: 3}
-      propertyPath: speed
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6359093257030552303, guid: 8ff96bad125bc3e4782de64e0ebd2731,
-        type: 3}
-      propertyPath: gravity
-      value: 250
-      objectReference: {fileID: 0}
-    - target: {fileID: 6359093257030552303, guid: 8ff96bad125bc3e4782de64e0ebd2731,
-        type: 3}
-      propertyPath: legLiftStrength
-      value: 250
-      objectReference: {fileID: 0}
     - target: {fileID: 7934023649054800067, guid: 8ff96bad125bc3e4782de64e0ebd2731,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -28.24
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 7934023649054800067, guid: 8ff96bad125bc3e4782de64e0ebd2731,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.13
+      value: 11.02
       objectReference: {fileID: 0}
     - target: {fileID: 7934023649054800067, guid: 8ff96bad125bc3e4782de64e0ebd2731,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -92.1
+      value: -94.8
       objectReference: {fileID: 0}
     - target: {fileID: 7934023649054800067, guid: 8ff96bad125bc3e4782de64e0ebd2731,
         type: 3}

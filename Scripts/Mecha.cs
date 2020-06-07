@@ -56,7 +56,7 @@ namespace Assets.Mechas
             rotator = FindObjectOfType<CameraRotator>();
             upperBody = transform.GetChild(0).transform;
             legInterface = new IMechLegs(this);
-            CalibrateHeight();
+            //CalibrateHeight();
         }
         void Update()
         {
@@ -64,39 +64,41 @@ namespace Assets.Mechas
             legInterface.HandleLegs();
             RotateUpperBody();
             UserInput();
-            CalculateVelocity();
+            CalculateVelocityV2();
             iKinematics.ResolveAllIK();
         }
-        private void CalculateVelocity()
+      
+        private void CalculateVelocityV2()
         {
-            Vector3 forceUpDirection = Vector3.up;
+            Vector3 forceUpDirection = Vector3.zero;
             acceleration = Vector3.zero;
             if (canMove)
                 acceleration = velocityDirection;
             for (int i = 0; i < legsData.Count; i++)
             {
                 var leg = legsData[i];
-                forceUpDirection += (leg.foot.position - transform.position) * 0.5f;
-                forceUpDirection.y += legHeight * 0.5f;
+                forceUpDirection += (leg.foot.position - transform.position);
             }
+            forceUpDirection.y += legHeight;
             forceUpDirection *= legLiftStrength;
+
             legForce = forceUpDirection;
-            acceleration.y += -gravity;
+            acceleration += -Vector3.up;
             acceleration += forceUpDirection;
             velocity += acceleration * Time.deltaTime;
             velocity -= velocity * dampener;
-            float speed = velocity.magnitude;
-            Vector3 dir = velocity / speed;
-            velocity = dir * speed;
             controller.Move(velocity * Time.deltaTime);
         }
-       
+
+        /// <summary>
+        /// This auto sets the legHeight.Use with caution!
+        /// </summary>
         void CalibrateHeight()
         {
             RaycastHit hit;
             if (Physics.Raycast(transform.position, -transform.up, out hit, Mathf.Infinity))
             {
-                legHeight = Vector3.Distance(transform.position, hit.point) - 1.5f;
+                legHeight = Vector3.Distance(transform.position, hit.point);
             }
         }
         void RotateUpperBody()
@@ -143,3 +145,27 @@ namespace Assets.Mechas
         }
     }
 }
+//Old velocity code for reference 
+//private void CalculateVelocity()
+//{
+//    Vector3 forceUpDirection = Vector3.up;
+//    acceleration = Vector3.zero;
+//    if (canMove)
+//        acceleration = velocityDirection;
+//    for (int i = 0; i < legsData.Count; i++)
+//    {
+//        var leg = legsData[i];
+//        forceUpDirection += (leg.foot.position - transform.position) * 0.5f;
+//        forceUpDirection.y += legHeight * 0.5f;
+//    }
+//    forceUpDirection *= legLiftStrength;
+//    legForce = forceUpDirection;
+//    acceleration.y += -gravity;
+//    acceleration += forceUpDirection;
+//    velocity += acceleration * Time.deltaTime;
+//    velocity -= velocity * dampener;
+//    float speed = velocity.magnitude;
+//    Vector3 dir = velocity / speed;
+//    velocity = dir * speed;
+//    controller.Move(velocity * Time.deltaTime);
+//}

@@ -60,7 +60,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7934023649054800067}
   - component: {fileID: 6359093257030552303}
-  - component: {fileID: 6359093257030552302}
   - component: {fileID: 6583161608287812020}
   m_Layer: 0
   m_Name: Mecha
@@ -76,7 +75,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6359093257030552272}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -28.24, y: 12.13, z: -92.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -100,15 +99,16 @@ MonoBehaviour:
   scanDistance: 5
   NewPositionForFootToLerpToMagnitude: 1
   legUpdateDistance: 4
-  legMoveSpeed: 1.5
+  speed: 1.5
   legRaiseFromGround: {x: 0, y: 4, z: 0}
   legLiftStrength: 250
-  gravity: 260
+  gravity: 250
   dampener: 0.2
-  legHeight: 10
+  legHeight: 15
   ankleHeight: 1
   MoveLegJointsTargetToEndEffectorMagnitude: 2
   LookAtGroundBeneathMagnitude: 2
+  legMoveSpeed: 1.5
   velocity: {x: 0, y: 0, z: 0}
   acceleration: {x: 0, y: 0, z: 0}
   canMove: 0
@@ -117,19 +117,6 @@ MonoBehaviour:
   bothLegsGrounded: 1
   velocityDirection: {x: 0, y: 0, z: 0}
   upperBody: {fileID: 0}
---- !u!114 &6359093257030552302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6359093257030552272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 331607251834d8944824c49f60043a6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  t: {fileID: 0}
 --- !u!143 &6583161608287812020
 CharacterController:
   m_ObjectHideFlags: 0
