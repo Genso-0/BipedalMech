@@ -8,7 +8,7 @@ namespace Assets.Mechas
     [CustomEditor(typeof(Mecha))]
     class MechaEditor : Editor
     {
-        public float arrowSize = 1;
+
         void OnSceneGUI()
         {
             Mecha m = (Mecha)target;

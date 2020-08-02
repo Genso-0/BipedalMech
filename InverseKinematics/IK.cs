@@ -5,24 +5,41 @@ using UnityEngine;
 
 namespace Assets.Mechas.InverseKinematics
 {
-    public sealed class IK
+    public sealed class IK : MonoBehaviour
     {
-        private IK()
+        #region singleton
+        private static IK m_Instance;
+        public static IK Instance
         {
-        }
-        private class Nested
-        {
-            // Explicit static constructor to tell C# compiler
-            // not to mark type as beforefieldinit
-            static Nested()
+            get
             {
+                m_Instance = FindObjectOfType<IK>();
+                if (m_Instance == null)
+                {
+                    GameObject container = new GameObject("IKManager");
+                    m_Instance = container.AddComponent<IK>();
+
+                }
+                else if (!m_Instance.initialised)
+                {
+                    m_Instance.initialised = true;
+                    m_Instance.Init();
+                }
+                return m_Instance;
             }
-
-            internal static readonly IK instance = new IK();
-                
         }
-        public static IK Instance { get { return Nested.instance; } }
-
+        bool initialised;
+        #endregion
+        void Init()
+        {
+            initialised = true;
+            iks = new List<IKLimb>();
+        }
+        void OnAwake()
+        {
+            if (!initialised)
+                Init();
+        }
         /// <summary>
         /// Solver iterations per update
         /// </summary>
