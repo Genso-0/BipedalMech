@@ -1,4 +1,6 @@
 ﻿
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 namespace Assets.Mechas
 {
@@ -6,7 +8,22 @@ namespace Assets.Mechas
     {
         Hips hips;
         Mecha mecha;
-        public Transform target;
+        public Transform hipsTarget;
+        public Transform headTarget;
+        public MoveType moveType;
+        public List<GameObject> waypoints;
+        public int waypointIndex;
+        public float distanceBeforeMovingTowardsTarget = 30;
+        public float distanceBeforeMovingAwayFromTarget = 15;
+        public float lookAtSpeed = 1f;
+        public bool debug;
+
+        public enum MoveType
+        {
+            None,
+            FollowTarget,
+            FollowWaypoints,
+        }
         void Start()
         {
             hips = GetComponentInChildren<Hips>();
@@ -15,25 +32,64 @@ namespace Assets.Mechas
         }
         void Update()
         {
-            if (target != null)
+            Move();
+        }
+        private void Move()
+        {
+            switch (moveType)
             {
-                Move();
-                RotateUpperBody();
-                hips.transform.LookAt(target);
+                case MoveType.FollowTarget:
+                    if (hipsTarget != null)
+                        MoveWithTarget();
+                    break;
+                case MoveType.FollowWaypoints:
+                    MoveAlongWaypoints();
+                    break;
             }
         }
 
-        private void RotateUpperBody()
+        private void MoveAlongWaypoints()
         {
-            mecha.upperBody.transform.LookAt(target);
+            var position = waypoints[waypointIndex].transform.position;
+             
+            LookAt(hips.transform, position);
+            LookAt(mecha.upperBody.transform, headTarget != null ? headTarget.transform.position : position);
+            mecha.velocityDirection = hips.transform.forward;
+            if ((transform.position - position).magnitude < 10)
+                waypointIndex++;
+            if (waypointIndex >= waypoints.Count)
+                waypointIndex = 0;
         }
 
-        private void Move()
+        void MoveWithTarget()
         {
-            if ((transform.position - target.transform.position).magnitude > 50f)
+            LookAt(hips.transform, hipsTarget.position);
+            LookAt(mecha.upperBody.transform, headTarget.position);
+
+            if ((transform.position - hipsTarget.transform.position).magnitude > distanceBeforeMovingTowardsTarget)
                 mecha.velocityDirection = hips.transform.forward;
-            else if ((transform.position - target.transform.position).magnitude < 25f)
+            else if ((transform.position - hipsTarget.transform.position).magnitude < distanceBeforeMovingAwayFromTarget)
                 mecha.velocityDirection = -hips.transform.forward;
+        }
+        void OnDrawGizmos()
+        {
+            if (debug)
+            {
+                Gizmos.color = Color.magenta;
+                for (int i = 0; i < waypoints.Count; i++)
+                {
+                    Gizmos.DrawSphere(waypoints[i].transform.position, 1f);
+                    if (i < waypoints.Count - 1)
+                        Gizmos.DrawLine(waypoints[i].transform.position, waypoints[i + 1].transform.position);
+                }
+            }
+        }
+     
+        void LookAt(Transform transform, Vector3 targetPosition)
+        {
+            Vector3 direction = targetPosition - transform.position;
+            Quaternion toRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, lookAtSpeed * Time.deltaTime);
         }
     }
 }
