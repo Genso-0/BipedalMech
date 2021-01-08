@@ -145,27 +145,3 @@ namespace Assets.Mechas
         }
     }
 }
-//Old velocity code for reference 
-//private void CalculateVelocity()
-//{
-//    Vector3 forceUpDirection = Vector3.up;
-//    acceleration = Vector3.zero;
-//    if (canMove)
-//        acceleration = velocityDirection;
-//    for (int i = 0; i < legsData.Count; i++)
-//    {
-//        var leg = legsData[i];
-//        forceUpDirection += (leg.foot.position - transform.position) * 0.5f;
-//        forceUpDirection.y += legHeight * 0.5f;
-//    }
-//    forceUpDirection *= legLiftStrength;
-//    legForce = forceUpDirection;
-//    acceleration.y += -gravity;
-//    acceleration += forceUpDirection;
-//    velocity += acceleration * Time.deltaTime;
-//    velocity -= velocity * dampener;
-//    float speed = velocity.magnitude;
-//    Vector3 dir = velocity / speed;
-//    velocity = dir * speed;
-//    controller.Move(velocity * Time.deltaTime);
-//}
