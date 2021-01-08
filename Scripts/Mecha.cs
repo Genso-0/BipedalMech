@@ -45,7 +45,7 @@ namespace Assets.Mechas
         //[HideInInspector] public List<IKLimb> legsIK;
         [HideInInspector] public List<LegData> legsData;
         public IMechLegs legInterface;
-
+        [HideInInspector] public bool controledByAnimator;
         private KeyCode previousKeyPress;
         void Awake()
         {
@@ -62,8 +62,12 @@ namespace Assets.Mechas
         {
             canMove = true;
             legInterface.HandleLegs();
-            RotateUpperBody();
-            UserInput();
+            if(!controledByAnimator)
+            {
+                RotateUpperBody();
+                UserInput();
+            }
+          
             CalculateVelocityV2();
             iKinematics.ResolveAllIK();
         }
@@ -143,5 +147,6 @@ namespace Assets.Mechas
             }
             return false;
         }
+     
     }
 }

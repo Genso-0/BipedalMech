@@ -10,7 +10,6 @@ namespace Assets.Mechas
         {
             this.parent = parent;
         }
-
         public void HandleLegs()
         {
             for (int i = 0; i < parent.legsData.Count; i++)
