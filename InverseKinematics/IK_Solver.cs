@@ -1,45 +1,10 @@
 ﻿//Credit goes to DitzelGames for this script. More information at https://www.youtube.com/watch?v=qqOAzn05fvk
-//The original script has been modified to be a singleton. Keep track of all IK objects and handle them via one call. And less null checking so use carefully.
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Mechas.InverseKinematics
 {
-    public sealed class IK : MonoBehaviour
+    public class IK_Solver
     {
-        #region singleton
-        private static IK m_Instance;
-        public static IK Instance
-        {
-            get
-            {
-                m_Instance = FindObjectOfType<IK>();
-                if (m_Instance == null)
-                {
-                    GameObject container = new GameObject("IKManager");
-                    m_Instance = container.AddComponent<IK>();
-
-                }
-                else if (!m_Instance.initialised)
-                {
-                    m_Instance.initialised = true;
-                    m_Instance.Init();
-                }
-                return m_Instance;
-            }
-        }
-        bool initialised;
-        #endregion
-        void Init()
-        {
-            initialised = true;
-            iks = new List<IKLimb>();
-        }
-        void OnAwake()
-        {
-            if (!initialised)
-                Init();
-        }
         /// <summary>
         /// Solver iterations per update
         /// </summary>
@@ -52,7 +17,6 @@ namespace Assets.Mechas.InverseKinematics
         /// Strength of going back to the start position.
         /// </summary>
         private readonly float snapBackStrength = 0.1f;
-        private List<IKLimb> iks = new List<IKLimb>();
         public void Init(IKLimb ik)
         {
             //initial array
@@ -69,7 +33,6 @@ namespace Assets.Mechas.InverseKinematics
             }
             ik.startRotationTarget = GetRotationRootSpace(ik.target, ik.root);
 
-
             //init data
             var current = ik.transform;
             ik.completeLength = 0;
@@ -80,7 +43,7 @@ namespace Assets.Mechas.InverseKinematics
                 if (i == ik.bones.Length - 1)
                 {
                     //leaf
-                  ik.startDirectionSucc[i] = GetPositionRootSpace(ik.target, ik.root) - GetPositionRootSpace(current, ik.root);
+                    ik.startDirectionSucc[i] = GetPositionRootSpace(ik.target, ik.root) - GetPositionRootSpace(current, ik.root);
                 }
                 else
                 {
@@ -91,16 +54,8 @@ namespace Assets.Mechas.InverseKinematics
                 }
                 current = current.parent;
             }
-            iks.Add(ik);
         }
-        public void ResolveAllIK()
-        {
-            for (int i = 0; i < iks.Count; i++)
-            {
-                ResolveIK(iks[i]);
-            }
-        }
-        private void ResolveIK(IKLimb limb)
+        public void ResolveIK(IKLimb limb)
         {
             //if (Target == null)
             //    return;

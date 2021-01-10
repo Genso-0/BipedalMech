@@ -5,16 +5,16 @@ namespace Assets.Mechas
 {
     public class IMechLegs
     {
-        private Mecha parent;
+        private Mecha mech;
         public IMechLegs(Mecha parent)
         {
-            this.parent = parent;
+            this.mech = parent;
         }
         public void HandleLegs()
         {
-            for (int i = 0; i < parent.legsData.Count; i++)
+            for (int i = 0; i < mech.legsData.Count; i++)
             {
-                var legData = parent.legsData[i];
+                var legData = mech.legsData[i];
                 LookAtGroundAhead(legData);
                 LookAtGroundBeneath(legData);
                 MoveLegJoints(legData);
@@ -33,21 +33,21 @@ namespace Assets.Mechas
                 RotateFoot(leg);
                
                 leg.target.position = newPos;
-                leg.timeStep += Time.deltaTime * parent.legMoveSpeed;
+                leg.timeStep += Time.deltaTime * mech.legMoveSpeed;
 
                
                 if (leg.timeStep >= 1)
                 {
                     NewFootPositionToLerpFrom(leg);
                     leg.moveLeg = false;
-                    parent.bothLegsGrounded = true;
-                    parent.velocityDirection = Vector3.zero;
+                    mech.bothLegsGrounded = true;
+                    mech.velocityDirection = Vector3.zero;
                 }
             }
         }
         void RotateFoot(LegData leg)
         {
-            var footRotation = leg.hips.transform.rotation;
+            var footRotation = leg.legRoot.transform.rotation;
             footRotation.x = 0;
             footRotation.z = 0;
             leg.foot.rotation = Quaternion.Lerp(leg.foot.rotation,
@@ -55,9 +55,9 @@ namespace Assets.Mechas
         }
         public void FootNeedsReseting()
         {
-            for (int i = 0; i < parent.legsData.Count; i++)
+            for (int i = 0; i < mech.legsData.Count; i++)
             {
-                var legData = parent.legsData[i];
+                var legData = mech.legsData[i];
                 if (legData.moveLeg && legData.timeStep > 0)
                 {
                     legData.timeStep = 1 - legData.timeStep;
@@ -74,43 +74,43 @@ namespace Assets.Mechas
         }
         public void FootPathingWasInterupted()
         {
-            for (int i = 0; i < parent.legsData.Count; i++)
+            for (int i = 0; i < mech.legsData.Count; i++)
             {
-                NewFootPositionToLerpFrom(parent.legsData[i]);
+                NewFootPositionToLerpFrom(mech.legsData[i]);
             }
         }
         void NewFootPositionToLerpFrom(LegData leg)
         {
             leg.timeStep = 0;
             leg.bezierStartPosition = leg.foot.position;
-            leg.bezierHandle1 = leg.underFootPositionRayHit.point + parent.legRaiseFromGround;
+            leg.bezierHandle1 = leg.underFootPositionRayHit.point + mech.legRaiseFromGround * mech.scaleFactor;
         }
         void NewPositionForFootToLerpTo(LegData legData, Vector3 rayEndPoint)
         {
-            rayEndPoint.y += parent.ankleHeight;
-            if ((legData.bezierEndPosition - rayEndPoint).sqrMagnitude > parent.NewPositionForFootToLerpToMagnitude)
+            rayEndPoint.y += mech.ankleHeight * mech.scaleFactor;
+            if ((legData.bezierEndPosition - rayEndPoint).sqrMagnitude > mech.NewPositionForFootToLerpToMagnitude * mech.scaleFactor)
             {
                 NewFootPositionToLerpFrom(legData);
             }
             legData.bezierEndPosition = rayEndPoint;
-            legData.bezierHandle2 = rayEndPoint + parent.legRaiseFromGround;
-            if (parent.bothLegsGrounded)
+            legData.bezierHandle2 = rayEndPoint + mech.legRaiseFromGround * mech.scaleFactor;
+            if (mech.bothLegsGrounded)
             {
-                parent.bothLegsGrounded = false;
+                mech.bothLegsGrounded = false;
                 legData.moveLeg = true;
             }
         }
         /// <summary>
-        /// Detects ground in desired direction via a RayCast. Will stop parent move if ray fails.
+        ///  Detects ground in desired direction via a RayCast. Will stop parent move if ray fails.
         /// </summary>
-        /// <param name="ik"></param>
+        /// <param name="leg"></param>
         private void LookAtGroundAhead(LegData leg)
         {
             Vector3 rayEndPoint;
             Vector3 rayStartPoint;
             if (ShootRayFromBodyToDirection(leg, out rayStartPoint, out rayEndPoint))
             {
-                if ((rayEndPoint - leg.foot.position).sqrMagnitude > parent.legUpdateDistance)
+                if ((rayEndPoint - leg.foot.position).sqrMagnitude > mech.legUpdateDistance * mech.scaleFactor)
                 {
                     NewPositionForFootToLerpTo(leg, rayEndPoint);
                 }
@@ -118,7 +118,7 @@ namespace Assets.Mechas
             }
             else
             {
-                parent.canMove = false;
+                mech.canMove = false;
             }
         }
         private void LookAtGroundBeneath(LegData leg)
@@ -129,7 +129,7 @@ namespace Assets.Mechas
                 Debug.DrawLine(leg.foot.position, hit.point, Color.magenta);
                 leg.underFootPositionRayHit = hit;
                 var dist = (hit.point - leg.foot.position).sqrMagnitude;
-                if (dist > parent.LookAtGroundBeneathMagnitude)
+                if (dist > mech.LookAtGroundBeneathMagnitude)
                 {
                     leg.footGrounded = false;
                 }
@@ -181,8 +181,8 @@ namespace Assets.Mechas
         private Vector3 GetRayStartDirectionFromBody(LegData leg, float detail)
         {
             Vector3 direction = Vector3.zero;
-            direction += leg.hips.transform.position;
-            direction += parent.velocityDirection * detail * parent.scanDistance;
+            direction += leg.legRoot.transform.position;
+            direction += mech.velocityDirection * detail * mech.scanDistance * mech.scaleFactor;
             return direction;
         }
     }

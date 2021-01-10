@@ -7,8 +7,8 @@ public class Hips : MonoBehaviour
     public float Zmagnitude = 5;
     public float Ymagnitude = 5;
     private Mecha mecha;
-
-    public float rotateHipsOnAxis;
+    public float bodyRotationSpeed = 0.1f;
+    float InputX;
     public enum HipsType
     {
         ForwardRotation,
@@ -21,23 +21,13 @@ public class Hips : MonoBehaviour
         mecha = GetComponentInParent<Mecha>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (!mecha.controledByAnimator)
-            UpdateHips();
-    }
-    public float bodyRotationSpeed = 0.1f;
-    float InputX;
-    private void UpdateHips()
+    public void UpdateHips()
     {
         InputX += Input.GetAxis("Horizontal") * Time.deltaTime * bodyRotationSpeed;
         var leftLeg = Quaternion.Euler(-transform.rotation.eulerAngles) * (mecha.legsData[0].foot.transform.position - transform.position) + transform.position;
         var rightLeg = Quaternion.Euler(-transform.rotation.eulerAngles) * (mecha.legsData[1].foot.transform.position - transform.position) + transform.position;
-        var leftLegVector =
-            (transform.position - leftLeg);
-        var rightLegVector =
-           (transform.position - rightLeg);
+        var leftLegVector = transform.position - leftLeg;
+        var rightLegVector = transform.position - rightLeg;
         var vectorDifferenceBetweenBothSides = rightLegVector - leftLegVector;
 
         switch (type)

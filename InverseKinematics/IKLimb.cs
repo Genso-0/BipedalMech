@@ -42,29 +42,19 @@ namespace Assets.Mechas.InverseKinematics
         {
             endEffector = transform.GetChild(0).transform;
             FindRoot();
-            FindParent();
+            Init();
         }
 
-        private void FindParent()
+        private void Init()
         {
-            Mecha mecha = null;
-            Transform parent = root.parent;
-            while(parent != null && mecha == null)
-            {
-                mecha = parent.GetComponent<Mecha>();
-                parent = parent.parent;
-            }
+            Mecha mecha = GetComponentInParent<Mecha>();
             if (mecha == null)
             {
                 Debug.LogError("Mecha script was not found in chain. Please add!");
                 return;
             }
-            IK.Instance.Init(this);
-            AddToList(mecha);
-        }
-
-        void AddToList(Mecha mecha)
-        {
+            mecha.ikSolver.Init(this);
+            mecha.ik_Legs.Add(this);
             switch (type)
             {
                 case LimbType.None:
@@ -72,9 +62,9 @@ namespace Assets.Mechas.InverseKinematics
                 case LimbType.Leg:
                     var legData = new LegData(endEffector, root, target);
                     legData.bezierStartPosition = endEffector.position;
-                    legData.bezierHandle1 = endEffector.position + mecha.legRaiseFromGround;
+                    legData.bezierHandle1 = endEffector.position + mecha.legRaiseFromGround * mecha.scaleFactor;
                     legData.bezierEndPosition = endEffector.position;
-                    legData.bezierHandle2 = endEffector.position + mecha.legRaiseFromGround;
+                    legData.bezierHandle2 = endEffector.position + mecha.legRaiseFromGround * mecha.scaleFactor;
                     mecha.legsData.Add(legData);
                     break;
             }

@@ -4,10 +4,10 @@ namespace Assets.Mechas.Legs
 {
     public class LegData
     {
-        public LegData(Transform anklePosition, Transform hips, Transform target)
+        public LegData(Transform anklePosition, Transform legRoot, Transform target)
         {
             this.foot = anklePosition;
-            this.hips = hips;
+            this.legRoot = legRoot;
             this.target = target;
         }
         /// <summary>
@@ -28,8 +28,8 @@ namespace Assets.Mechas.Legs
         /// </summary>
         public Transform target;
         /// <summary>
-        /// The hips
+        /// The top of the leg.
         /// </summary>
-        public Transform hips;
+        public Transform legRoot;
     }
 }

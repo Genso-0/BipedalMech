@@ -48,8 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Zmagnitude: 3
   Ymagnitude: 1
-  type: 0
   bodyRotationSpeed: 50
+  type: 0
 --- !u!1 &6359093257030552272
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,6 +61,7 @@ GameObject:
   - component: {fileID: 7934023649054800067}
   - component: {fileID: 6359093257030552303}
   - component: {fileID: 6583161608287812020}
+  - component: {fileID: 1867267721}
   m_Layer: 0
   m_Name: Mecha
   m_TagString: Untagged
@@ -102,7 +103,6 @@ MonoBehaviour:
   speed: 1.5
   legRaiseFromGround: {x: 0, y: 4, z: 0}
   legLiftStrength: 250
-  gravity: 250
   dampener: 0.2
   legHeight: 15
   ankleHeight: 1
@@ -117,6 +117,8 @@ MonoBehaviour:
   bothLegsGrounded: 1
   velocityDirection: {x: 0, y: 0, z: 0}
   upperBody: {fileID: 0}
+  upperBodyRotation: 0
+  ik_Legs: []
 --- !u!143 &6583161608287812020
 CharacterController:
   m_ObjectHideFlags: 0
@@ -135,6 +137,27 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1867267721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6359093257030552272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b13ab94c421ef44daafad9bf02d04e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hipsTarget: {fileID: 0}
+  headTarget: {fileID: 0}
+  moveType: 1
+  waypoints: []
+  waypointIndex: 0
+  distanceBeforeMovingTowardsTarget: 30
+  distanceBeforeMovingAwayFromTarget: 15
+  lookAtSpeed: 1
+  debug: 0
 --- !u!1001 &5245061312206400881
 PrefabInstance:
   m_ObjectHideFlags: 0

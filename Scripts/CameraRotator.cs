@@ -9,8 +9,8 @@ public class CameraRotator : MonoBehaviour
     [HideInInspector]public Camera cam;
     [HideInInspector]public bool adjustingToNewZ;
     [HideInInspector]public float newZ;
-    [HideInInspector]public float rotateSpeedH = 2.0f;
-    [HideInInspector]public float rotateSpeedV = 2.0f;
+    public float rotationSpeed_Yaw = 2.0f;
+    public float rotationSpeed_Pitch = 2.0f;
     [HideInInspector]private float yaw = 0.0f;
     [HideInInspector]private float pitch = 0.0f;
     void Awake()
@@ -49,8 +49,8 @@ public class CameraRotator : MonoBehaviour
     }
     public void RotateCamera()
     {
-        yaw += rotateSpeedH * Input.GetAxis("Mouse X");
-        pitch -= rotateSpeedV * Input.GetAxis("Mouse Y");
+        yaw += rotationSpeed_Yaw * Input.GetAxis("Mouse X");
+        pitch -= rotationSpeed_Pitch * Input.GetAxis("Mouse Y");
         transform.eulerAngles = new Vector3(pitch, yaw, 0.0f);
     }
 }
