@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace Mech
+namespace Mech.Utilities
 {
     public static class MathHelper
     {

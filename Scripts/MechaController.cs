@@ -1,4 +1,5 @@
 ﻿
+using Mech.Utilities;
 using UnityEngine;
 namespace Mech
 {
@@ -14,6 +15,7 @@ namespace Mech
         public int waypointIndex;
         public float distanceBeforeMovingTowardsTarget = 30;
         public float distanceBeforeMovingAwayFromTarget = 15;
+        public float distanceBeforeChangingWaypointTarget = 10;
         public float lookAtSpeed = 1f;
         public float rotationSpeed_Yaw = 2.0f;
         private KeyCode previousKeyPress;
@@ -68,7 +70,7 @@ namespace Mech
             mech.LookAt(hips.transform, position, lookAtSpeed);
             mech.LookAt(mech.upperBody.transform, headTarget != null ? headTarget.transform.position : position, lookAtSpeed);
             mech.velocityDirection = hips.transform.forward;
-            if ((transform.position - position).magnitude < 10)
+            if ((transform.position - position).magnitude < distanceBeforeChangingWaypointTarget * mech.scaleFactor)
                 waypointIndex++;
             if (waypointIndex >= patrolRoute.waypoints.Count)
                 waypointIndex = 0;
@@ -80,9 +82,9 @@ namespace Mech
             mech.LookAt(hips.transform, hipsTarget.position, lookAtSpeed);
             mech.LookAt(mech.upperBody.transform, headTarget != null ? headTarget.transform.position : hipsTarget.position, lookAtSpeed);
 
-            if ((transform.position - hipsTarget.transform.position).magnitude > distanceBeforeMovingTowardsTarget)
+            if ((transform.position - hipsTarget.transform.position).magnitude > distanceBeforeMovingTowardsTarget * mech.scaleFactor)
                 mech.velocityDirection = hips.transform.forward;
-            else if ((transform.position - hipsTarget.transform.position).magnitude < distanceBeforeMovingAwayFromTarget)
+            else if ((transform.position - hipsTarget.transform.position).magnitude < distanceBeforeMovingAwayFromTarget * mech.scaleFactor)
                 mech.velocityDirection = -hips.transform.forward;
         }
         #endregion

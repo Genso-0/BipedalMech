@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Mech
+namespace Mech.Utilities
 {
     public class PatrolRoute : MonoBehaviour
     {

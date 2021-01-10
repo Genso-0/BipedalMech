@@ -1,6 +1,6 @@
 ﻿
 using UnityEngine;
-namespace Mech.IK
+namespace Mech.Utilities
 {
     public class CameraRotator : MonoBehaviour
     {
