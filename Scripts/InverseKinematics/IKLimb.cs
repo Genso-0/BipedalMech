@@ -1,7 +1,6 @@
-﻿using Assets.Mechas.Legs;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Assets.Mechas.InverseKinematics
+namespace Mech
 {
     public class IKLimb : MonoBehaviour
     {

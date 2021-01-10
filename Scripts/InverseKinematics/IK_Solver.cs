@@ -1,7 +1,7 @@
 ﻿//Credit goes to DitzelGames for this script. More information at https://www.youtube.com/watch?v=qqOAzn05fvk
 using UnityEngine;
 
-namespace Assets.Mechas.InverseKinematics
+namespace Mech
 {
     public class IK_Solver
     {

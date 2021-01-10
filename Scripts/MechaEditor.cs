@@ -1,8 +1,8 @@
-﻿using Assets.Mechas.InverseKinematics;
+﻿
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Mechas
+namespace Mech
 {
 #if UNITY_EDITOR
     [CustomEditor(typeof(Mecha))]

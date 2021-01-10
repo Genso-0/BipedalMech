@@ -73,10 +73,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1186892240328222543}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6453622fbfece0741a463cc50ec320df, type: 3}
+  m_Script: {fileID: 11500000, guid: d517ed415055ec447be60fb87b189d82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debug: 1
+  debug: 0
   waypoints:
   - {fileID: 1186892241081524979}
   - {fileID: 1186892241139844305}

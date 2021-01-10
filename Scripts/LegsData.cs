@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Mechas.Legs
+namespace Mech
 {
     public class LegData
     {

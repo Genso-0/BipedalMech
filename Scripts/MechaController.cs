@@ -1,6 +1,6 @@
 ﻿
 using UnityEngine;
-namespace Assets.Mechas
+namespace Mech
 {
     [RequireComponent(typeof(Mecha))]
     public class MechaController : MonoBehaviour

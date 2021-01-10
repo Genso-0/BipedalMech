@@ -1,9 +1,8 @@
-﻿using Assets.Mechas.InverseKinematics;
-using Assets.Mechas.Legs;
+﻿
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Mechas
+namespace Mech
 {
     public class Mecha : MonoBehaviour
     {
